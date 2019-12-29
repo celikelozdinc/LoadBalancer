@@ -18,4 +18,5 @@ services:
 
 networks:
   wan:
-    external: true
+    external:
+      name: distributedstatemachine_distributedWan
