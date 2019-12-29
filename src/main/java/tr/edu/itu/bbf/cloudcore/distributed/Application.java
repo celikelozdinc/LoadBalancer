@@ -27,10 +27,14 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // iterate over enums using for loop
+
+        sender.send(Hosts.SMOC2.toString(),Events.Pay.toString());
+        /*
         for (Events event : Events.values()) {
              Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
              sender.send(host.toString(),event.toString());
         }
+        */
     }
 
     public static void main(String[] args) {

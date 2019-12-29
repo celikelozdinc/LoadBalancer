@@ -21,7 +21,8 @@ public class EventSender {
         msg.setEvent(event);
         String exchange = "EVENT_EXCHANGE_" + host;
         logger.info("Sending event {} to exchange {}",msg.getEvent(),exchange);
-        //String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        logger.info("Received reply from smoc = {}", reply);
     }
 
 
