@@ -17,6 +17,10 @@ docker-compose build
 ``
 
 ## 1.Start-up RabbitMQ
+RabbitMQ is chosen as _message broker_ which routes messages 
+betweeen __statemachine<->statemachine__  and __executor<->statemachine__
+by using _RPC_ protocol in synchronized manner.
+
 ``
 docker-compose up rabbitmq
 ``
