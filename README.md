@@ -1,4 +1,4 @@
-##0.Build 
+## 0.Build 
 
 You can build images separately:
 
@@ -16,13 +16,13 @@ or, you can simply use
 docker-compose build
 ``
 
-##1.Start-up RabbitMQ
+## 1.Start-up RabbitMQ
 ``
 docker-compose up rabbitmq
 ``
 
 
-##2.Start-up Executor
+## 2.Start-up Executor
 ``
 docker-compose run loadbalancer
 ``
