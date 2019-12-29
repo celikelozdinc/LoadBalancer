@@ -26,9 +26,13 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // iterate over enums using for loop
-
         sender.send(Hosts.SMOC2.toString(),Events.Pay.toString());
+        sender.send(Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(Hosts.SMOC2.toString(),Events.StartFromScratch.toString());
+        sender.send(Hosts.SMOC2.toString(),Events.Pay.toString());
+        sender.send(Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(Hosts.SMOC2.toString(),Events.StartFromScratch.toString());
+        // iterate over enums using for loop
         /*
         for (Events event : Events.values()) {
              Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
