@@ -6,11 +6,11 @@ services:
       dockerfile: loadbalancer/Dockerfile
     networks:
       - wan
-    hostname: smoc1
+    hostname: loadbalancer
     environment:
-      - EVENT_EXCHANGE_SMOC1=SMOC1_EVENT_EXCHANGE
-      - EVENT_EXCHANGE_SMOC2=SMOC2_EVENT_EXCHANGE
-      - EVENT_EXCHANGE_SMOC3=SMOC3_EVENT_EXCHANGE
+      - EVENT_EXCHANGE_SMOC1=${SMOC1}
+      - EVENT_EXCHANGE_SMOC2=${SMOC2}
+      - EVENT_EXCHANGE_SMOC3=${SMOC3}
 
 
 networks:
