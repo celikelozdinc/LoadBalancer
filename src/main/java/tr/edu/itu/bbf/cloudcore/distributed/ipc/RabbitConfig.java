@@ -17,6 +17,9 @@ public class RabbitConfig {
     @Value("${EVENT_EXCHANGE_SMOC2}")
     private String EVENT_EXCHANGE_SMOC2;
 
+    @Value("${EVENT_EXCHANGE_SMOC3}")
+    private String EVENT_EXCHANGE_SMOC3;
+
     /* Add exchanges for other smocs */
 
     @Bean
@@ -27,6 +30,11 @@ public class RabbitConfig {
     @Bean
     DirectExchange smoc2Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC2);
+    }
+
+    @Bean
+    DirectExchange smoc3Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC3);
     }
 
 }
