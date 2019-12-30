@@ -11,10 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
+    @Value("${EVENT_EXCHANGE_SMOC1}")
+    private String EVENT_EXCHANGE_SMOC1;
+
     @Value("${EVENT_EXCHANGE_SMOC2}")
     private String EVENT_EXCHANGE_SMOC2;
 
     /* Add exchanges for other smocs */
+
+    @Bean
+    DirectExchange smoc1Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC1);
+    }
 
     @Bean
     DirectExchange smoc2Exchange() {
