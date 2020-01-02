@@ -3,6 +3,10 @@
 You can build images separately:
 
 ``
+docker-compose build zookeeper
+``
+
+``
 docker-compose build rabbitmq
 ``
 
@@ -16,7 +20,13 @@ or, you can simply use
 docker-compose build
 ``
 
-## 1.Start-up RabbitMQ
+## 1.Start-up zookeeper
+
+``
+docker-compose up -d zookeeper
+``
+
+## 2.Start-up RabbitMQ
 RabbitMQ is chosen as _message broker_ which routes messages 
 betweeen __statemachine<->statemachine__  and __executor<->statemachine__
 by using _RPC_ protocol in synchronized manner.
@@ -26,12 +36,12 @@ docker-compose up rabbitmq
 ``
 
 
-## 2.Start-up Executor
+## 3.Start-up Executor
 ``
 docker-compose run loadbalancer
 ``
 
-and then, start entrpoint script inside container
+and then, execute entrypoint script inside container:
 
 ``
 ./start_services.sh

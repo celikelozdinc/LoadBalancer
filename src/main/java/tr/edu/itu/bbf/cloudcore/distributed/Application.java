@@ -26,34 +26,17 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*
-        sender.send(Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        sender.send(Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        sender.send(Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        */
         // iterate over enums using for loop
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__",event.toString(),host.toString());
-            sender.send(host.toString(),event.toString());
-        }
+        Integer counter = 0;
+        while( counter<5) {
+            logger.info(".....{}th iteration of loadbalancer.....",counter);
+            for (Events event : Events.values()) {
+                Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
+                logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
+                sender.send(host.toString(), event.toString());
+            }
 
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__",event.toString(),host.toString());
-            sender.send(host.toString(),event.toString());
-        }
-
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__",event.toString(),host.toString());
-            sender.send(host.toString(),event.toString());
+            counter ++;
         }
 
     }
