@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: zookeeper/Dockerfile
     networks:
-      - distributedWan
+      - isolatedNetwork
     hostname: ${ZOOKEPER_HOSTNAME}
   rabbitmq:
     image: ${RABBITMQ_IMAGE_TAG}
