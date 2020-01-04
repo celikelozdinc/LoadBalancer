@@ -28,6 +28,20 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        sender.send(1,Hosts.SMOC1.toString(),Events.Pay.toString());
+        sender.send(2,Hosts.SMOC1.toString(),Events.Receive.toString());
+        sender.send(3,Hosts.SMOC2.toString(),Events.StartFromScratch.toString());
+        sender.send(4,Hosts.SMOC2.toString(),Events.Pay.toString());
+        sender.send(5,Hosts.SMOC3.toString(),Events.Receive.toString());
+        sender.send(6,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
+        sender.send(7,Hosts.SMOC1.toString(),Events.Pay.toString());
+        sender.send(8,Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(9,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
+        sender.send(10,Hosts.SMOC3.toString(),Events.Pay.toString());
+        sender.send(11,Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(12,Hosts.SMOC1.toString(),Events.StartFromScratch.toString());
+
+        /*
         eventNumber = 0;
         // iterate over enums using for loop
         for (Events event : Events.values()) {
@@ -36,23 +50,7 @@ public class Application implements CommandLineRunner {
             logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
             sender.send(eventNumber, host.toString(), event.toString());
         }
-
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            eventNumber = eventNumber + 1;
-            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
-            sender.send(eventNumber, host.toString(), event.toString());
-        }
-
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            eventNumber = eventNumber + 1;
-            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
-            sender.send(eventNumber, host.toString(), event.toString());
-        }
-
-
-
+        */
 
 
     }
