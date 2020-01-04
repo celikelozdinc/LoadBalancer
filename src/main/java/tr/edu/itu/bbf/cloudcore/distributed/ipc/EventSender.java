@@ -45,14 +45,14 @@ public class EventSender {
         exchangeDictionary.put("SMOC3",EVENT_EXCHANGE_SMOC3);
     }
 
-    public void send(String host, String event)  {
+    public void send(Integer eventNumber, String host, String event)  {
         /* Prepare message for smoc */
         EventMessage msg = new EventMessage();
         msg.setEvent(event);
         msg.setSender(System.getenv("HOSTNAME"));
-        /* Choose exchange for sendind message to smoc */
+        msg.setEventNumber(eventNumber);
+        /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
-        logger.info("Sending event __{}__ to exchange __{}__ by process __{}__",msg.getEvent(),exchange,System.getenv("HOSTNAME"));
         String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
         logger.info("Received reply from smoc  __{}__", reply);
     }

@@ -22,40 +22,36 @@ public class Application implements CommandLineRunner {
 
     private enum Hosts{SMOC1,SMOC2,SMOC3}
 
+    private Integer eventNumber;
+
     static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     @Override
     public void run(String... args) throws Exception {
+        eventNumber = 0;
         // iterate over enums using for loop
         for (Events event : Events.values()) {
             Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
-            sender.send(host.toString(), event.toString());
+            eventNumber = eventNumber + 1;
+            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
+            sender.send(eventNumber, host.toString(), event.toString());
         }
 
         for (Events event : Events.values()) {
             Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
-            sender.send(host.toString(), event.toString());
+            eventNumber = eventNumber + 1;
+            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
+            sender.send(eventNumber, host.toString(), event.toString());
         }
 
         for (Events event : Events.values()) {
             Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
-            sender.send(host.toString(), event.toString());
+            eventNumber = eventNumber + 1;
+            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
+            sender.send(eventNumber, host.toString(), event.toString());
         }
 
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
-            sender.send(host.toString(), event.toString());
-        }
 
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            logger.info("Sending event __{}__ to smoc __{}__", event.toString(), host.toString());
-            sender.send(host.toString(), event.toString());
-        }
 
 
 
