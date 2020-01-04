@@ -40,6 +40,12 @@ public class Application implements CommandLineRunner {
         sender.send(10,Hosts.SMOC3.toString(),Events.Pay.toString());
         sender.send(11,Hosts.SMOC2.toString(),Events.Receive.toString());
         sender.send(12,Hosts.SMOC1.toString(),Events.StartFromScratch.toString());
+        sender.send(13,Hosts.SMOC3.toString(),Events.Pay.toString());
+        sender.send(14,Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(15,Hosts.SMOC1.toString(),Events.StartFromScratch.toString());
+        sender.send(16,Hosts.SMOC1.toString(),Events.Pay.toString());
+        sender.send(17,Hosts.SMOC2.toString(),Events.Receive.toString());
+        sender.send(18,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
 
         /*
         eventNumber = 0;
