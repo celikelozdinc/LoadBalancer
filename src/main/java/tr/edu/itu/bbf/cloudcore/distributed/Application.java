@@ -28,6 +28,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        /*
         sender.send(1,Hosts.SMOC1.toString(),Events.Pay.toString());
         sender.send(2,Hosts.SMOC1.toString(),Events.Receive.toString());
         sender.send(3,Hosts.SMOC2.toString(),Events.StartFromScratch.toString());
@@ -46,17 +47,20 @@ public class Application implements CommandLineRunner {
         sender.send(16,Hosts.SMOC1.toString(),Events.Pay.toString());
         sender.send(17,Hosts.SMOC2.toString(),Events.Receive.toString());
         sender.send(18,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-
-        /*
-        eventNumber = 0;
-        // iterate over enums using for loop
-        for (Events event : Events.values()) {
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-            eventNumber = eventNumber + 1;
-            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
-            sender.send(eventNumber, host.toString(), event.toString());
-        }
         */
+
+        eventNumber = 0;
+
+        // iterate over enums using for loop
+        while(eventNumber < 31) {
+            for (Events event : Events.values()) {
+                Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
+                eventNumber = eventNumber + 1;
+                logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
+                sender.send(eventNumber, host.toString(), event.toString());
+            }
+        }
+
 
 
     }
