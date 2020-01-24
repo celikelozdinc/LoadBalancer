@@ -20,7 +20,7 @@ public class Application implements CommandLineRunner {
 
     private enum Events{Pay,Receive,StartFromScratch}
 
-    private enum Hosts{SMOC1,SMOC2,SMOC3}
+    private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7}
 
     private Integer eventNumber;
 
@@ -52,7 +52,7 @@ public class Application implements CommandLineRunner {
         eventNumber = 0;
 
         // iterate over enums using for loop
-        while(eventNumber < 31) {
+        while(eventNumber < 97) {
             for (Events event : Events.values()) {
                 Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
                 eventNumber = eventNumber + 1;
