@@ -52,7 +52,7 @@ public class Application implements CommandLineRunner {
         eventNumber = 0;
 
         // iterate over enums using for loop
-        while(eventNumber < 97) {
+        while(eventNumber < 96) {
             for (Events event : Events.values()) {
                 Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
                 eventNumber = eventNumber + 1;
