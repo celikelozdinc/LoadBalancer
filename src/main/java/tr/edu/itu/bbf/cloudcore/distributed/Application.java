@@ -49,16 +49,18 @@ public class Application implements CommandLineRunner {
         sender.send(18,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
         */
 
-        eventNumber = 0;
+        eventNumber = 1;
+        Integer cycle = 0;
 
         // iterate over enums using for loop
-        while(eventNumber < 94) {
+        while(cycle < 33) {
             for (Events event : Events.values()) {
                 Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
-                eventNumber = eventNumber + 1;
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
                 sender.send(eventNumber, host.toString(), event.toString());
+                eventNumber = eventNumber + 1;
             }
+            cycle = cycle + 1;
         }
 
 
