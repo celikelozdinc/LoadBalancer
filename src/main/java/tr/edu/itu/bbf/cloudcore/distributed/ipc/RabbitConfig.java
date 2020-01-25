@@ -29,6 +29,30 @@ public class RabbitConfig {
     @Value("${EVENT_EXCHANGE_SMOC7}")
     private String EVENT_EXCHANGE_SMOC7;
 
+    @Value("${EVENT_EXCHANGE_SMOC8}")
+    private String EVENT_EXCHANGE_SMOC8;
+
+    @Value("${EVENT_EXCHANGE_SMOC9}")
+    private String EVENT_EXCHANGE_SMOC9;
+
+    @Value("${EVENT_EXCHANGE_SMOC10}")
+    private String EVENT_EXCHANGE_SMOC10;
+
+    @Value("${EVENT_EXCHANGE_SMOC11}")
+    private String EVENT_EXCHANGE_SMOC11;
+
+    @Value("${EVENT_EXCHANGE_SMOC12}")
+    private String EVENT_EXCHANGE_SMOC12;
+
+    @Value("${EVENT_EXCHANGE_SMOC13}")
+    private String EVENT_EXCHANGE_SMOC13;
+
+    @Value("${EVENT_EXCHANGE_SMOC14}")
+    private String EVENT_EXCHANGE_SMOC14;
+
+    @Value("${EVENT_EXCHANGE_SMOC15}")
+    private String EVENT_EXCHANGE_SMOC15;
+
 
     @Bean
     DirectExchange smoc1Exchange() {
@@ -63,6 +87,46 @@ public class RabbitConfig {
     @Bean
     DirectExchange smoc7Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC7);
+    }
+
+    @Bean
+    DirectExchange smoc8Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC8);
+    }
+
+    @Bean
+    DirectExchange smoc9Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC9);
+    }
+
+    @Bean
+    DirectExchange smoc10Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC10);
+    }
+
+    @Bean
+    DirectExchange smoc11Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC11);
+    }
+
+    @Bean
+    DirectExchange smoc12Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC12);
+    }
+
+    @Bean
+    DirectExchange smoc13Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC13);
+    }
+
+    @Bean
+    DirectExchange smoc14Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC14);
+    }
+
+    @Bean
+    DirectExchange smoc15Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC15);
     }
 
 
