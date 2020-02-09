@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
 
 
 @Component
@@ -105,8 +106,18 @@ public class EventSender {
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
         String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        sleep(2);
         logger.info("Received reply from smoc  __{}__", reply);
     }
 
+
+    public void sleep(Integer sleepTime){
+        try {
+            TimeUnit.SECONDS.sleep(sleepTime);
+        } catch (InterruptedException ex) {
+            System.out.println("Exception during sleep in main program --> " + ex.toString());
+        }
+
+    }
 
 }
