@@ -106,7 +106,7 @@ public class EventSender {
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
         String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
-        sleep(2);
+        //sleep(2);
         logger.info("Received reply from smoc  __{}__", reply);
     }
 
