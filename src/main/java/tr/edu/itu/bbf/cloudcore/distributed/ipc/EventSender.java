@@ -64,6 +64,9 @@ public class EventSender {
     private String EVENT_EXCHANGE_SMOC15;
     */
 
+    @Value("${EVENT_EXCHANGE_NEWCLIENT1}")
+    private String EVENT_EXCHANGE_NEWCLIENT1;
+
 
     private Dictionary exchangeDictionary;
 
@@ -106,7 +109,8 @@ public class EventSender {
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
         logger.info("Sending event to exchange __{}__",exchange);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        //String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //sleep(2);
         logger.info("Received reply from smoc  __{}__", reply);
     }
