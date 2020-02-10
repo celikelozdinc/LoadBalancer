@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    /*
     @Value("${EVENT_EXCHANGE_SMOC1}")
     private String EVENT_EXCHANGE_SMOC1;
 
@@ -18,6 +17,7 @@ public class RabbitConfig {
     @Value("${EVENT_EXCHANGE_SMOC3}")
     private String EVENT_EXCHANGE_SMOC3;
 
+    /*
     @Value("${EVENT_EXCHANGE_SMOC4}")
     private String EVENT_EXCHANGE_SMOC4;
 
@@ -80,7 +80,6 @@ public class RabbitConfig {
     }
 
 
-    /*
     @Bean
     DirectExchange smoc1Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC1);
@@ -97,6 +96,7 @@ public class RabbitConfig {
     }
 
 
+    /*
     @Bean
     DirectExchange smoc4Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC4);

@@ -19,7 +19,6 @@ public class EventSender {
     private RabbitTemplate rabbitTemplate;
 
 
-    /*
     @Value("${EVENT_EXCHANGE_SMOC1}")
     private String EVENT_EXCHANGE_SMOC1;
 
@@ -29,6 +28,7 @@ public class EventSender {
     @Value("${EVENT_EXCHANGE_SMOC3}")
     private String EVENT_EXCHANGE_SMOC3;
 
+    /*
     @Value("${EVENT_EXCHANGE_SMOC4}")
     private String EVENT_EXCHANGE_SMOC4;
 
@@ -89,10 +89,10 @@ public class EventSender {
     public void init() {
         logger.info("+++++EventSender::PostConstruct+++++");
         exchangeDictionary = new Hashtable();
-        /*
         exchangeDictionary.put("SMOC1",EVENT_EXCHANGE_SMOC1);
         exchangeDictionary.put("SMOC2",EVENT_EXCHANGE_SMOC2);
         exchangeDictionary.put("SMOC3",EVENT_EXCHANGE_SMOC3);
+        /*
         exchangeDictionary.put("SMOC4",EVENT_EXCHANGE_SMOC4);
         exchangeDictionary.put("SMOC5",EVENT_EXCHANGE_SMOC5);
         exchangeDictionary.put("SMOC6",EVENT_EXCHANGE_SMOC6);
@@ -115,10 +115,10 @@ public class EventSender {
         msg.setSender(System.getenv("HOSTNAME"));
         msg.setEventNumber(eventNumber);
         /* Choose exchange for sending message to smoc */
-        //String exchange = exchangeDictionary.get(host).toString();
-        //logger.info("Sending event to exchange __{}__",exchange);
-        //String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
+        String exchange = exchangeDictionary.get(host).toString();
+        logger.info("Sending event to exchange __{}__",exchange);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        //String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //rabbitTemplate.convertAndSend(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //sleep(2);
         logger.info("Received reply from smoc  __{}__", reply);
