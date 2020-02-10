@@ -18,6 +18,8 @@ public class EventSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+
+    /*
     @Value("${EVENT_EXCHANGE_SMOC1}")
     private String EVENT_EXCHANGE_SMOC1;
 
@@ -26,7 +28,7 @@ public class EventSender {
 
     @Value("${EVENT_EXCHANGE_SMOC3}")
     private String EVENT_EXCHANGE_SMOC3;
-    /*
+
     @Value("${EVENT_EXCHANGE_SMOC4}")
     private String EVENT_EXCHANGE_SMOC4;
 
@@ -87,10 +89,10 @@ public class EventSender {
     public void init() {
         logger.info("+++++EventSender::PostConstruct+++++");
         exchangeDictionary = new Hashtable();
+        /*
         exchangeDictionary.put("SMOC1",EVENT_EXCHANGE_SMOC1);
         exchangeDictionary.put("SMOC2",EVENT_EXCHANGE_SMOC2);
         exchangeDictionary.put("SMOC3",EVENT_EXCHANGE_SMOC3);
-        /*
         exchangeDictionary.put("SMOC4",EVENT_EXCHANGE_SMOC4);
         exchangeDictionary.put("SMOC5",EVENT_EXCHANGE_SMOC5);
         exchangeDictionary.put("SMOC6",EVENT_EXCHANGE_SMOC6);

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
+    /*
     @Value("${EVENT_EXCHANGE_SMOC1}")
     private String EVENT_EXCHANGE_SMOC1;
 
@@ -16,7 +17,7 @@ public class RabbitConfig {
 
     @Value("${EVENT_EXCHANGE_SMOC3}")
     private String EVENT_EXCHANGE_SMOC3;
-    /*
+
     @Value("${EVENT_EXCHANGE_SMOC4}")
     private String EVENT_EXCHANGE_SMOC4;
 
@@ -64,21 +65,6 @@ public class RabbitConfig {
     private String EVENT_EXCHANGE_NEWCLIENT3;
 
     @Bean
-    DirectExchange smoc1Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_SMOC1);
-    }
-
-    @Bean
-    DirectExchange smoc2Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_SMOC2);
-    }
-
-    @Bean
-    DirectExchange smoc3Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_SMOC3);
-    }
-
-    @Bean
     DirectExchange NewClient1Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_NEWCLIENT1);
     }
@@ -93,7 +79,24 @@ public class RabbitConfig {
         return new DirectExchange(EVENT_EXCHANGE_NEWCLIENT3);
     }
 
+
     /*
+    @Bean
+    DirectExchange smoc1Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC1);
+    }
+
+    @Bean
+    DirectExchange smoc2Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC2);
+    }
+
+    @Bean
+    DirectExchange smoc3Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC3);
+    }
+
+
     @Bean
     DirectExchange smoc4Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC4);
