@@ -67,6 +67,12 @@ public class EventSender {
     @Value("${EVENT_EXCHANGE_NEWCLIENT1}")
     private String EVENT_EXCHANGE_NEWCLIENT1;
 
+    @Value("${EVENT_EXCHANGE_NEWCLIENT2}")
+    private String EVENT_EXCHANGE_NEWCLIENT2;
+
+    @Value("${EVENT_EXCHANGE_NEWCLIENT3}")
+    private String EVENT_EXCHANGE_NEWCLIENT3;
+
 
     private Dictionary exchangeDictionary;
 
