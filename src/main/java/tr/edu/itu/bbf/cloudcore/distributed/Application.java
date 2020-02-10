@@ -56,7 +56,7 @@ public class Application implements CommandLineRunner {
         Integer cycle = 0;
 
         // iterate over enums using for loop
-        while(cycle < 32) {
+        while(cycle < 100) {
             logger.info("...Starting cycle {}...",cycle);
             Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
             for (Events event : Events.values()) {
