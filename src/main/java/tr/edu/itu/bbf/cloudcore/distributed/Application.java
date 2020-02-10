@@ -56,11 +56,10 @@ public class Application implements CommandLineRunner {
         Integer cycle = 0;
 
         // iterate over enums using for loop
-        while(cycle < 10) {
+        while(cycle < 100) {
             logger.info("...Starting cycle {}...",cycle);
-            Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
             for (Events event : Events.values()) {
-                //Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
+                Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
                 sender.send(eventNumber, host.toString(), event.toString());
                 eventNumber = eventNumber + 1;
