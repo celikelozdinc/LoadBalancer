@@ -117,8 +117,8 @@ public class EventSender {
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
         logger.info("Sending event to exchange __{}__",exchange);
-        //String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+        //String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //rabbitTemplate.convertAndSend(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //sleep(2);
         logger.info("Received reply from smoc  __{}__", reply);
