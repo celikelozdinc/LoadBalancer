@@ -40,6 +40,7 @@ public class EventSender {
     @Value("${EVENT_EXCHANGE_SMOC7}")
     private String EVENT_EXCHANGE_SMOC7;
 
+    /*
     @Value("${EVENT_EXCHANGE_SMOC8}")
     private String EVENT_EXCHANGE_SMOC8;
 
@@ -52,7 +53,6 @@ public class EventSender {
     @Value("${EVENT_EXCHANGE_SMOC11}")
     private String EVENT_EXCHANGE_SMOC11;
 
-    /*
     @Value("${EVENT_EXCHANGE_SMOC12}")
     private String EVENT_EXCHANGE_SMOC12;
 
@@ -66,6 +66,7 @@ public class EventSender {
     private String EVENT_EXCHANGE_SMOC15;
     */
 
+    /*
     @Value("${EVENT_EXCHANGE_NEWCLIENT1}")
     private String EVENT_EXCHANGE_NEWCLIENT1;
 
@@ -74,7 +75,7 @@ public class EventSender {
 
     @Value("${EVENT_EXCHANGE_NEWCLIENT3}")
     private String EVENT_EXCHANGE_NEWCLIENT3;
-
+     */
 
     private Dictionary exchangeDictionary;
 
@@ -96,11 +97,11 @@ public class EventSender {
         exchangeDictionary.put("SMOC5",EVENT_EXCHANGE_SMOC5);
         exchangeDictionary.put("SMOC6",EVENT_EXCHANGE_SMOC6);
         exchangeDictionary.put("SMOC7",EVENT_EXCHANGE_SMOC7);
+        /*
         exchangeDictionary.put("SMOC8",EVENT_EXCHANGE_SMOC8);
         exchangeDictionary.put("SMOC9",EVENT_EXCHANGE_SMOC9);
         exchangeDictionary.put("SMOC10",EVENT_EXCHANGE_SMOC10);
         exchangeDictionary.put("SMOC11",EVENT_EXCHANGE_SMOC11);
-        /*
         exchangeDictionary.put("SMOC12",EVENT_EXCHANGE_SMOC12);
         exchangeDictionary.put("SMOC13",EVENT_EXCHANGE_SMOC13);
         exchangeDictionary.put("SMOC14",EVENT_EXCHANGE_SMOC14);
