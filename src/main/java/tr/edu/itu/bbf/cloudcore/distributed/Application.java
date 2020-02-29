@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
+import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -21,6 +22,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private EventSender sender;
 
+    @Autowired
+    private InMemoryStore inMemoryStore;
+
     private enum Events{Pay,Receive,StartFromScratch}
 
     private enum Hosts{SMOC1,SMOC2,SMOC3}
@@ -30,37 +34,14 @@ public class Application implements CommandLineRunner {
 
     private Integer eventNumber;
 
-    private Dictionary ckptDictionary;
-
     static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     @Override
     public void run(String... args) throws Exception {
-        /*
-        sender.send(1,Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(2,Hosts.SMOC1.toString(),Events.Receive.toString());
-        sender.send(3,Hosts.SMOC2.toString(),Events.StartFromScratch.toString());
-        sender.send(4,Hosts.SMOC2.toString(),Events.Pay.toString());
-        sender.send(5,Hosts.SMOC3.toString(),Events.Receive.toString());
-        sender.send(6,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        sender.send(7,Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(8,Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(9,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        sender.send(10,Hosts.SMOC3.toString(),Events.Pay.toString());
-        sender.send(11,Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(12,Hosts.SMOC1.toString(),Events.StartFromScratch.toString());
-        sender.send(13,Hosts.SMOC3.toString(),Events.Pay.toString());
-        sender.send(14,Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(15,Hosts.SMOC1.toString(),Events.StartFromScratch.toString());
-        sender.send(16,Hosts.SMOC1.toString(),Events.Pay.toString());
-        sender.send(17,Hosts.SMOC2.toString(),Events.Receive.toString());
-        sender.send(18,Hosts.SMOC3.toString(),Events.StartFromScratch.toString());
-        */
 
         eventNumber = 1;
         Integer cycle = 0;
 
-        ckptDictionary = new Hashtable();
 
         // iterate over enums using for loop
         while(cycle < 300) {
@@ -70,17 +51,11 @@ public class Application implements CommandLineRunner {
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
                 String ckpt = sender.send(eventNumber, host.toString(), event.toString());
                 /* Store CKPT information which is received from smoc */
-                ckptDictionary.put(eventNumber,ckpt);
+                inMemoryStore.persist(ckpt);
                 /*Calculate new event number*/
                 eventNumber = eventNumber + 1;
             }
             cycle = cycle + 1;
-        }
-
-        /*Print contents of ckpt dictionary*/
-        Enumeration en = ckptDictionary.elements();
-        while (en.hasMoreElements()){
-            logger.info(en.nextElement().toString());
         }
 
 

@@ -3,8 +3,10 @@ package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
 import javax.annotation.PostConstruct;
 import java.net.UnknownHostException;
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 
 @Component
 public class Receiver {
+
+    @Autowired
+    private InMemoryStore inMemoryStore;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
