@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
@@ -25,6 +26,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private InMemoryStore inMemoryStore;
 
+    @Autowired
+    private Environment environment;
+
     private enum Events{Pay,Receive,StartFromScratch}
 
     private enum Hosts{SMOC1,SMOC2,SMOC3}
@@ -42,9 +46,10 @@ public class Application implements CommandLineRunner {
         eventNumber = 1;
         Integer cycle = 0;
 
+        Integer numberOfCycles = Integer.valueOf(environment.getProperty("loadbalancer.cycles"));
 
         // iterate over enums using for loop
-        while(cycle < 300) {
+        while(cycle < numberOfCycles) {
             logger.info("...Starting cycle {}...",cycle);
             for (Events event : Events.values()) {
                 Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
@@ -57,6 +62,8 @@ public class Application implements CommandLineRunner {
             }
             cycle = cycle + 1;
         }
+
+
 
     }
 
