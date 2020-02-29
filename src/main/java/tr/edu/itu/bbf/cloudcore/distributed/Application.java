@@ -58,8 +58,6 @@ public class Application implements CommandLineRunner {
             cycle = cycle + 1;
         }
 
-
-
     }
 
     public static void main(String[] args) {

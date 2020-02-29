@@ -1,5 +1,6 @@
 package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,14 +14,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 @Component
-public class Receiver {
+public class EventReceiver {
 
     @Autowired
     private InMemoryStore inMemoryStore;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Receiver(){
+    public EventReceiver(){
         logger.info(" +++++++++ CONSTRUCTOR of RECEIVER ++++++++++");
     }
 
@@ -30,11 +31,11 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "${LB_QUEUE}")
-    public String process(CkptMessage msg) throws UnknownHostException {
+    public ArrayList<Response> process(@NotNull CkptMessage msg) throws UnknownHostException {
         logger.info("!!!!!!!!!!!!!!!!!!!!!!!!");
         logger.info("CkptMessage Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
         logger.info("!!!!!!!!!!!!!!!!!!!!!!!!");
-        return "hello";
+        return inMemoryStore.read();
     }
 
 

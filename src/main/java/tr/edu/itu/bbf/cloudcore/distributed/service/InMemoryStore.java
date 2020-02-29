@@ -43,6 +43,7 @@ public class InMemoryStore {
         logger.info("#of CKPTS stored by loadbalancer: {}",responseList.size());
     }
 
-
-
+    public ArrayList<Response> read() {
+        return responseList;
+    }
 }
