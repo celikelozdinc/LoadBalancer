@@ -26,7 +26,6 @@ public class RabbitConfig {
     @Value("${LB_QUEUE}")
     private String LB_QUEUE;
 
-    /*
     @Value("${EVENT_EXCHANGE_SMOC4}")
     private String EVENT_EXCHANGE_SMOC4;
 
@@ -62,7 +61,7 @@ public class RabbitConfig {
 
     @Value("${EVENT_EXCHANGE_SMOC15}")
     private String EVENT_EXCHANGE_SMOC15;
-    */
+
 
 
 
@@ -81,7 +80,6 @@ public class RabbitConfig {
         return new DirectExchange(EVENT_EXCHANGE_SMOC3);
     }
 
-    /*
     @Bean
     DirectExchange smoc4Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC4);
@@ -141,7 +139,6 @@ public class RabbitConfig {
     DirectExchange smoc15Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC15);
     }
-    */
 
 
 
