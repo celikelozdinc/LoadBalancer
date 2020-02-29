@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -117,12 +118,11 @@ public class EventSender {
         msg.setEventNumber(eventNumber);
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
-        logger.info("Sending event to exchange __{}__",exchange);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
-        //String reply = (String) rabbitTemplate.convertSendAndReceive(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
+        logger.info("Sending event ___{}___ to exchange __{}__",event,exchange);
+        Message<String> reply = (Message<String>) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
         //rabbitTemplate.convertAndSend(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
-        //sleep(2);
-        logger.info("Received reply from smoc  __{}__", reply);
+        logger.info("Received reply which is processed for event: ___{}___",reply.getHeaders().get("processedEvent").toString());
+        //logger.info("Received reply from smoc  __{}__", reply);
     }
 
 
