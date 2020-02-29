@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Random;
 
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
@@ -26,6 +29,8 @@ public class Application implements CommandLineRunner {
     //private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7,SMOC8,SMOC9,SMOC10,SMOC11,SMOC12,SMOC13,SMOC14,SMOC15}
 
     private Integer eventNumber;
+
+    private Dictionary ckptDictionary;
 
     static final Logger logger = LoggerFactory.getLogger(Application.class);
 
@@ -55,16 +60,27 @@ public class Application implements CommandLineRunner {
         eventNumber = 1;
         Integer cycle = 0;
 
+        ckptDictionary = new Hashtable();
+
         // iterate over enums using for loop
         while(cycle < 300) {
             logger.info("...Starting cycle {}...",cycle);
             for (Events event : Events.values()) {
                 Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
-                sender.send(eventNumber, host.toString(), event.toString());
+                String ckpt = sender.send(eventNumber, host.toString(), event.toString());
+                /* Store CKPT information which is received from smoc */
+                ckptDictionary.put(eventNumber,ckpt);
+                /*Calculate new event number*/
                 eventNumber = eventNumber + 1;
             }
             cycle = cycle + 1;
+        }
+
+        /*Print contents of ckpt dictionary*/
+        Enumeration en = ckptDictionary.elements();
+        while (en.hasMoreElements()){
+            logger.info(en.nextElement().toString());
         }
 
 

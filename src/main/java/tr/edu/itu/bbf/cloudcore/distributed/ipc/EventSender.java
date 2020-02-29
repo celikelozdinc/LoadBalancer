@@ -5,16 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -71,16 +66,6 @@ public class EventSender {
     private String EVENT_EXCHANGE_SMOC15;
     */
 
-    /*
-    @Value("${EVENT_EXCHANGE_NEWCLIENT1}")
-    private String EVENT_EXCHANGE_NEWCLIENT1;
-
-    @Value("${EVENT_EXCHANGE_NEWCLIENT2}")
-    private String EVENT_EXCHANGE_NEWCLIENT2;
-
-    @Value("${EVENT_EXCHANGE_NEWCLIENT3}")
-    private String EVENT_EXCHANGE_NEWCLIENT3;
-     */
 
     private Dictionary exchangeDictionary;
 
@@ -114,7 +99,7 @@ public class EventSender {
          */
     }
 
-    public void send(Integer eventNumber, String host, String event)  {
+    public String send(Integer eventNumber, String host, String event)  {
         /* Prepare message for smoc */
         EventMessage msg = new EventMessage();
         msg.setEvent(event);
@@ -124,13 +109,10 @@ public class EventSender {
         String exchange = exchangeDictionary.get(host).toString();
         logger.info("Sending event ___{}___ to exchange __{}__",event,exchange);
         String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
-        Map headers = new HashMap();
-        headers.put("key1", "value1");
-        MessageHeaders header = new MessageHeaders(headers);
-        Message<String> replyMsg = MessageBuilder.createMessage(reply, header);
         //rabbitTemplate.convertAndSend(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //logger.info("Received reply which is processed for event: ___{}___",reply.getHeaders().get("processedEvent").toString());
-        logger.info("Received reply from smoc  __{}__", replyMsg.getPayload());
+        logger.info("Received reply from smoc  __{}__", reply);
+        return reply;
     }
 
 

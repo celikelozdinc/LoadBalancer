@@ -56,31 +56,6 @@ public class RabbitConfig {
     */
 
 
-    /*
-    @Value("${EVENT_EXCHANGE_NEWCLIENT1}")
-    private String EVENT_EXCHANGE_NEWCLIENT1;
-
-    @Value("${EVENT_EXCHANGE_NEWCLIENT2}")
-    private String EVENT_EXCHANGE_NEWCLIENT2;
-
-    @Value("${EVENT_EXCHANGE_NEWCLIENT3}")
-    private String EVENT_EXCHANGE_NEWCLIENT3;
-
-    @Bean
-    DirectExchange NewClient1Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_NEWCLIENT1);
-    }
-
-    @Bean
-    DirectExchange NewClient2Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_NEWCLIENT2);
-    }
-
-    @Bean
-    DirectExchange NewClient3Exchange() {
-        return new DirectExchange(EVENT_EXCHANGE_NEWCLIENT3);
-    }
-    */
 
     @Bean
     DirectExchange smoc1Exchange() {
