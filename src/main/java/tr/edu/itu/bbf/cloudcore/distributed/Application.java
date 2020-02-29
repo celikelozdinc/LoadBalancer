@@ -31,9 +31,6 @@ public class Application implements CommandLineRunner {
 
     private enum Events{Pay,Receive,StartFromScratch}
 
-    //private enum Hosts{SMOC1,SMOC2,SMOC3}
-    //private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7}
-    //private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7,SMOC8,SMOC9,SMOC10,SMOC11}
     private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7,SMOC8,SMOC9,SMOC10,SMOC11,SMOC12,SMOC13,SMOC14,SMOC15}
 
     private Integer eventNumber;
@@ -56,7 +53,6 @@ public class Application implements CommandLineRunner {
         while(cycle < numberOfCycles) {
             logger.info("...Starting cycle {}...",cycle);
             for (Events event : Events.values()) {
-                //Hosts host = Hosts.values()[new Random().nextInt(Hosts.values().length)];
                 Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
                 String ckpt = sender.send(eventNumber, host.toString(), event.toString());

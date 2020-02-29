@@ -32,9 +32,8 @@ public class EventReceiver {
 
     @RabbitListener(queues = "${LB_QUEUE}")
     public ArrayList<Response> process(@NotNull CkptMessage msg) throws UnknownHostException {
-        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!");
         logger.info("CkptMessage Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
-        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!");
+        logger.info("Returns the CKPT list with size: {}",inMemoryStore.read().size());
         return inMemoryStore.read();
     }
 
