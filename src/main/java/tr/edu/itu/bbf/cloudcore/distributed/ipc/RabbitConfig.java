@@ -1,6 +1,9 @@
 package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -133,5 +136,22 @@ public class RabbitConfig {
         return new DirectExchange(EVENT_EXCHANGE_SMOC15);
     }
     */
+
+
+
+    @Bean
+    Queue LbQueue() {
+        return new Queue("LB_QUEUE", false);
+    }
+
+    @Bean
+    DirectExchange LbExchange() {
+        return new DirectExchange("LB_EXCHANGE");
+    }
+
+    @Bean
+    Binding Lbbinding(Queue LbQueue, DirectExchange LbExchange) {
+        return BindingBuilder.bind(LbQueue).to(LbExchange).with("rpc");
+    }
 
 }
