@@ -37,7 +37,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        eventNumber = 1;
+        this.eventNumber = 1;
         Integer cycle = 0;
 
         /* Read number of cycles */
@@ -50,21 +50,21 @@ public class Application implements CommandLineRunner {
         while(cycle < numberOfCycles) {
             Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
             logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
-            sendEventsToSmoc(eventNumber, host.toString());
+            sendEventsToSmoc(host.toString());
             logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
             cycle = cycle + 1;
         }
 
     }
 
-    public void sendEventsToSmoc(Integer eventNumber, String host){
+    public void sendEventsToSmoc(String host){
         for (Events event : Events.values()) {
-            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(),host);
-            String ckpt = sender.send(eventNumber, host, event.toString());
+            logger.info("Sending {}.event which is __{}__ to __{}__", this.eventNumber, event.toString(),host);
+            String ckpt = sender.send(this.eventNumber, host, event.toString());
             /* Store CKPT information which is received from smoc */
             inMemoryStore.persist(ckpt);
             /*Calculate new event number*/
-            eventNumber = eventNumber + 1;
+            this.eventNumber = this.eventNumber + 1;
         }
     }
 
