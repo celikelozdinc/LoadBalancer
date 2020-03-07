@@ -54,7 +54,6 @@ public class Application implements CommandLineRunner {
             Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
             logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
             for (Events event : Events.values()) {
-                //Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                 logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
                 String ckpt = sender.send(eventNumber, host.toString(), event.toString());
                 /* Store CKPT information which is received from smoc */
