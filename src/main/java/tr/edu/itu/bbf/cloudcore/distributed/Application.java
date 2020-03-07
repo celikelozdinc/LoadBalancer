@@ -11,9 +11,6 @@ import org.springframework.core.env.Environment;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Random;
 
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
@@ -53,19 +50,22 @@ public class Application implements CommandLineRunner {
         while(cycle < numberOfCycles) {
             Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
             logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
-            for (Events event : Events.values()) {
-                logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(), host.toString());
-                String ckpt = sender.send(eventNumber, host.toString(), event.toString());
-                /* Store CKPT information which is received from smoc */
-                inMemoryStore.persist(ckpt);
-                /*Calculate new event number*/
-                eventNumber = eventNumber + 1;
-            }
+            sendEventsToSmoc(eventNumber, host.toString());
+            logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
             cycle = cycle + 1;
         }
 
+    }
 
-
+    public void sendEventsToSmoc(Integer eventNumber, String host){
+        for (Events event : Events.values()) {
+            logger.info("Sending {}.event which is __{}__ to __{}__", eventNumber, event.toString(),host);
+            String ckpt = sender.send(eventNumber, host, event.toString());
+            /* Store CKPT information which is received from smoc */
+            inMemoryStore.persist(ckpt);
+            /*Calculate new event number*/
+            eventNumber = eventNumber + 1;
+        }
     }
 
     public static void main(String[] args) {
