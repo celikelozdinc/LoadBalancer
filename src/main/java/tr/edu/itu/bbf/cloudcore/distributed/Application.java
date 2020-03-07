@@ -66,6 +66,14 @@ public class Application implements CommandLineRunner {
                     break;
                 case "ordered":
                     logger.info("Working Mode = Ordered");
+                    while(cycle < numberOfCycles) {
+                        for (Hosts host : Hosts.values()) {
+                            logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
+                            sendEventsToSmoc(host.toString());
+                            logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
+                        }
+                        cycle = cycle + 1;
+                    }
                     break;
             }
 
