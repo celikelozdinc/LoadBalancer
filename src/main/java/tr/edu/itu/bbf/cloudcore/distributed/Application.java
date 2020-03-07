@@ -11,6 +11,8 @@ import org.springframework.core.env.Environment;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
@@ -66,11 +68,18 @@ public class Application implements CommandLineRunner {
                     break;
                 case "ordered":
                     logger.info("Working Mode = Ordered");
+                    /* Prepare hosts list */
+                    List<String> hostsList = new ArrayList<String>();
+                    for(int hostIndex=1; hostIndex<=numberOfReplicas;hostIndex++){
+                        String host = "SMOC"+hostIndex;
+                        hostsList.add(host);
+                    }
+
                     while(cycle < numberOfCycles) {
-                        for (Hosts host : Hosts.values()) {
-                            logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
+                        for (String host : hostsList) {
+                            logger.info("...Starting cycle {} for hostname {}...",cycle,host);
                             sendEventsToSmoc(host.toString());
-                            logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
+                            logger.info("...Finished cycle {} for hostname {}...",cycle,host);
                         }
                         cycle = cycle + 1;
                     }
