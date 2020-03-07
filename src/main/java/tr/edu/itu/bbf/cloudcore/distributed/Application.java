@@ -26,6 +26,8 @@ public class Application implements CommandLineRunner {
     @Autowired
     private Environment environment;
 
+    private String workingMode;
+
     private enum Events{Pay,Receive,StartFromScratch}
 
     private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7,SMOC8,SMOC9,SMOC10,SMOC11,SMOC12,SMOC13,SMOC14,SMOC15}
@@ -33,6 +35,8 @@ public class Application implements CommandLineRunner {
     private Integer eventNumber;
 
     static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -46,14 +50,24 @@ public class Application implements CommandLineRunner {
         /* Read number of replicas. Events will be sent to these smocs */
         Integer numberOfReplicas = Integer.valueOf(environment.getProperty("loadbalancer.replicas"));
 
+        workingMode = environment.getProperty("loadbalancer.workingMode");
+
         // iterate over enums using for loop
-        while(cycle < numberOfCycles) {
-            Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
-            logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
-            sendEventsToSmoc(host.toString());
-            logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
-            cycle = cycle + 1;
-        }
+            switch (workingMode){
+                case "randomized":
+                    logger.info("Working Mode = Randomized");
+                    while(cycle < numberOfCycles) {
+                        Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
+                        logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
+                        sendEventsToSmoc(host.toString());
+                        logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
+                        cycle = cycle + 1;
+                    }
+                    break;
+                case "ordered":
+                    logger.info("Working Mode = Ordered");
+                    break;
+            }
 
     }
 
