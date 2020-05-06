@@ -62,6 +62,32 @@ public class RabbitConfig {
     @Value("${EVENT_EXCHANGE_SMOC15}")
     private String EVENT_EXCHANGE_SMOC15;
 
+    @Value("${EVENT_EXCHANGE_SMOC16}")
+    private String EVENT_EXCHANGE_SMOC16;
+
+    @Value("${EVENT_EXCHANGE_SMOC17}")
+    private String EVENT_EXCHANGE_SMOC17;
+
+    @Value("${EVENT_EXCHANGE_SMOC18}")
+    private String EVENT_EXCHANGE_SMOC18;
+
+    @Value("${EVENT_EXCHANGE_SMOC19}")
+    private String EVENT_EXCHANGE_SMOC19;
+
+    @Value("${EVENT_EXCHANGE_SMOC20}")
+    private String EVENT_EXCHANGE_SMOC20;
+
+    @Value("${EVENT_EXCHANGE_SMOC21}")
+    private String EVENT_EXCHANGE_SMOC21;
+
+    @Value("${EVENT_EXCHANGE_SMOC22}")
+    private String EVENT_EXCHANGE_SMOC22;
+
+    @Value("${EVENT_EXCHANGE_SMOC23}")
+    private String EVENT_EXCHANGE_SMOC23;
+
+    @Value("${EVENT_EXCHANGE_SMOC24}")
+    private String EVENT_EXCHANGE_SMOC24;
 
 
 
@@ -139,6 +165,43 @@ public class RabbitConfig {
     DirectExchange smoc15Exchange() {
         return new DirectExchange(EVENT_EXCHANGE_SMOC15);
     }
+
+    @Bean
+    DirectExchange smoc16Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC16);
+    }
+
+    @Bean
+    DirectExchange smoc17Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC17);
+    }
+
+    @Bean
+    DirectExchange smoc18Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC18);
+    }
+
+    @Bean
+    DirectExchange smoc19Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC19);
+    }
+
+    @Bean
+    DirectExchange smoc20Exchange() {
+        return new DirectExchange(EVENT_EXCHANGE_SMOC20);
+    }
+
+    @Bean
+    DirectExchange smoc21Exchange() { return new DirectExchange(EVENT_EXCHANGE_SMOC21); }
+
+    @Bean
+    DirectExchange smoc22Exchange() { return new DirectExchange(EVENT_EXCHANGE_SMOC22); }
+
+    @Bean
+    DirectExchange smoc23Exchange() { return new DirectExchange(EVENT_EXCHANGE_SMOC23); }
+
+    @Bean
+    DirectExchange smoc24Exchange() { return new DirectExchange(EVENT_EXCHANGE_SMOC24); }
 
 
 
