@@ -97,11 +97,15 @@ public class Application implements CommandLineRunner {
         /* Send this message to other smocs in order NOT to take CKPT  */
         for (Hosts otherHost : Hosts.values()) {
             if (otherHost.toString().equals(host)) {
-                logger.info("Skipping host: {}",host);
+                logger.info("*****");
+                logger.info("Skipping host: {}",otherHost);
+                logger.info("*****");
             }
             else{
+                logger.info("*****");
                 logger.info("Sending event to host : {}",otherHost);
-                String msg = sender.send(this.eventNumber, host, event.toString());
+                logger.info("*****");
+                String msg = sender.send(this.eventNumber, otherHost.toString(), event.toString());
             }
         }
         /*Calculate new event number*/
