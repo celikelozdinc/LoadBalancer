@@ -40,6 +40,7 @@ public class InMemoryStore {
         /* Add response object to array */
         responseList.add(response);
 
+        logger.info("InMemoryStore:persist()");
         logger.info("#of CKPTS stored by loadbalancer: {}",responseList.size());
     }
 
