@@ -130,15 +130,16 @@ public class EventSender {
 
     }
 
-    public String send(Integer eventNumber, String host, String event)  {
+    public String send(Integer eventNumber, String host, String event, boolean willCkptTriggered)  {
         /* Prepare message for smoc */
         EventMessage msg = new EventMessage();
         msg.setEvent(event);
         msg.setSender(System.getenv("HOSTNAME"));
         msg.setEventNumber(eventNumber);
+        msg.setCkptTriggered(willCkptTriggered);
         /* Choose exchange for sending message to smoc */
         String exchange = exchangeDictionary.get(host).toString();
-        logger.info("Sending event ___{}___ to exchange __{}__",event,exchange);
+        logger.info("Sending event ___{}___ to exchange __{}__ with flag __{}__",event,exchange, willCkptTriggered);
         String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
         //rabbitTemplate.convertAndSend(EVENT_EXCHANGE_NEWCLIENT1,"rpc",msg);
         //logger.info("Received reply which is processed for event: ___{}___",reply.getHeaders().get("processedEvent").toString());

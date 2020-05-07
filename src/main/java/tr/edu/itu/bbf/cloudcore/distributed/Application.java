@@ -14,6 +14,8 @@ import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+
 
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
 @SpringBootApplication
@@ -61,7 +63,7 @@ public class Application implements CommandLineRunner {
 
                     Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                     logger.info("...Starting cycle {} for hostname {}...",cycle,randomHost.toString());
-                    sendEventsToSmoc(randomHost.toString());
+                    sendEventsToSmoc(randomHost.toString(),numberOfReplicas,true);
                     logger.info("...Finished cycle {} for hostname {}...",cycle,randomHost.toString());
 
                     break;
@@ -78,7 +80,7 @@ public class Application implements CommandLineRunner {
                     while(cycle < numberOfCycles) {
                         for (String host : hostsList) {
                             logger.info("...Starting cycle {} for hostname {}...",cycle,host);
-                            sendEventsToSmoc(host.toString());
+                            sendEventsToSmoc(host.toString(),numberOfReplicas,false);
                             logger.info("...Finished cycle {} for hostname {}...",cycle,host);
                         }
                         cycle = cycle + 1;
@@ -88,14 +90,15 @@ public class Application implements CommandLineRunner {
 
     }
 
-    public void sendEventsToSmoc(String host){
+    public void sendEventsToSmoc(String host, Integer numOfReplicas, boolean willCkptTriggered){
         Events event = Events.Pay;
         logger.info("Sending {}.event which is __{}__ to __{}__", this.eventNumber, event.toString(),host);
-        String ckpt = sender.send(this.eventNumber, host, event.toString());
+        String ckpt = sender.send(this.eventNumber, host, event.toString(),willCkptTriggered);
         /* Store CKPT information which is received from smoc */
         inMemoryStore.persist(ckpt);
         /* Send this message to other smocs in order NOT to take CKPT  */
-        for (Hosts otherHost : Hosts.values()) {
+        for (int hostCounter=0; hostCounter < numOfReplicas; hostCounter ++ ) {
+            Hosts otherHost = Hosts.values()[hostCounter];
             if (otherHost.toString().equals(host)) {
                 logger.info("*****");
                 logger.info("Skipping host: {}",otherHost);
@@ -105,7 +108,7 @@ public class Application implements CommandLineRunner {
                 logger.info("*****");
                 logger.info("Sending event to host : {}",otherHost);
                 logger.info("*****");
-                String msg = sender.send(this.eventNumber, otherHost.toString(), event.toString());
+                String msg = sender.send(this.eventNumber, otherHost.toString(), event.toString(),willCkptTriggered);
             }
         }
         /*Calculate new event number*/
