@@ -49,7 +49,7 @@ public class Application implements CommandLineRunner {
         Integer cycle = 0;
 
         /* Read number of cycles */
-        Integer numberOfCycles = Integer.valueOf(environment.getProperty("loadbalancer.cycles"));
+        Integer numberOfCycles = Integer.valueOf(environment.getProperty("loadbalancer.events"));
 
         /* Read number of replicas. Events will be sent to these smocs */
         Integer numberOfReplicas = Integer.valueOf(environment.getProperty("loadbalancer.replicas"));
@@ -63,7 +63,7 @@ public class Application implements CommandLineRunner {
 
                     Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                     logger.info("...Starting cycle {} for hostname {}...",cycle,randomHost.toString());
-                    sendEventsToSmoc(randomHost.toString(),numberOfReplicas,true);
+                    sendEventToEnsemble(randomHost.toString(),numberOfReplicas);
                     logger.info("...Finished cycle {} for hostname {}...",cycle,randomHost.toString());
 
                     break;
@@ -80,7 +80,7 @@ public class Application implements CommandLineRunner {
                     while(cycle < numberOfCycles) {
                         for (String host : hostsList) {
                             logger.info("...Starting cycle {} for hostname {}...",cycle,host);
-                            sendEventsToSmoc(host.toString(),numberOfReplicas,false);
+                            sendEventToEnsemble(host.toString(),numberOfReplicas);
                             logger.info("...Finished cycle {} for hostname {}...",cycle,host);
                         }
                         cycle = cycle + 1;
@@ -90,25 +90,22 @@ public class Application implements CommandLineRunner {
 
     }
 
-    public void sendEventsToSmoc(String host, Integer numOfReplicas, boolean willCkptTriggered){
+    public void sendEventToEnsemble(String host, Integer numOfReplicas){
         Events event = Events.Pay;
-        logger.info("Sending {}.event which is __{}__ to __{}__", this.eventNumber, event.toString(),host);
-        String ckpt = sender.send(this.eventNumber, host, event.toString(),willCkptTriggered);
+        logger.info("Sending {}.event which is __{}__ to __{}__ with flag __{}__", this.eventNumber, event.toString(),host,true);
+        /* Send this message to chosen smoc in order to take CKPT  */
+        String ckpt = sender.send(this.eventNumber, host, event.toString(),true);
         /* Store CKPT information which is received from smoc */
         inMemoryStore.persist(ckpt);
         /* Send this message to other smocs in order NOT to take CKPT  */
         for (int hostCounter=0; hostCounter < numOfReplicas; hostCounter ++ ) {
             Hosts otherHost = Hosts.values()[hostCounter];
             if (otherHost.toString().equals(host)) {
-                logger.info("*****");
-                logger.info("Skipping host: {}",otherHost);
-                logger.info("*****");
+                logger.info("Skipping host: __{}__",otherHost);
             }
             else{
-                logger.info("*****");
-                logger.info("Sending event to host : {}",otherHost);
-                logger.info("*****");
-                String msg = sender.send(this.eventNumber, otherHost.toString(), event.toString(),willCkptTriggered);
+                logger.info("Sending {}.event which is __{}__ to __{}__ with flag __{}__", this.eventNumber, event.toString(),otherHost,false);
+                String msg = sender.send(this.eventNumber, otherHost.toString(), event.toString(),false);
             }
         }
         /*Calculate new event number*/
