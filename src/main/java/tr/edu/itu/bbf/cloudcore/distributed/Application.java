@@ -46,10 +46,10 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         this.eventNumber = 1;
-        Integer cycle = 0;
+        Integer event = 0;
 
         /* Read number of cycles */
-        Integer numberOfCycles = Integer.valueOf(environment.getProperty("loadbalancer.events"));
+        Integer numberOfEvents = Integer.valueOf(environment.getProperty("loadbalancer.events"));
 
         /* Read number of replicas. Events will be sent to these smocs */
         Integer numberOfReplicas = Integer.valueOf(environment.getProperty("loadbalancer.replicas"));
@@ -60,12 +60,13 @@ public class Application implements CommandLineRunner {
             switch (workingMode){
                 case "randomized":
                     logger.info("Working Mode = Randomized");
-
-                    Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
-                    logger.info("...Starting cycle {} for hostname {}...",cycle,randomHost.toString());
-                    sendEventToEnsemble(randomHost.toString(),numberOfReplicas);
-                    logger.info("...Finished cycle {} for hostname {}...",cycle,randomHost.toString());
-
+                    while(event < numberOfEvents) {
+                        Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
+                        logger.info("...Starting cycle {} for hostname {}...", event, randomHost.toString());
+                        sendEventToEnsemble(randomHost.toString(), numberOfReplicas);
+                        logger.info("...Finished cycle {} for hostname {}...", event, randomHost.toString());
+                        event = event + 1;
+                    }
                     break;
 
                     case "ordered":
@@ -77,13 +78,13 @@ public class Application implements CommandLineRunner {
                         hostsList.add(host);
                     }
 
-                    while(cycle < numberOfCycles) {
+                    while(event < numberOfEvents) {
                         for (String host : hostsList) {
-                            logger.info("...Starting cycle {} for hostname {}...",cycle,host);
+                            logger.info("...Starting cycle {} for hostname {}...",event,host);
                             sendEventToEnsemble(host.toString(),numberOfReplicas);
-                            logger.info("...Finished cycle {} for hostname {}...",cycle,host);
+                            logger.info("...Finished cycle {} for hostname {}...",event,host);
                         }
-                        cycle = cycle + 1;
+                        event = event + 1;
                     }
                     break;
             }
