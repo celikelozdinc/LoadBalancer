@@ -58,15 +58,15 @@ public class Application implements CommandLineRunner {
             switch (workingMode){
                 case "randomized":
                     logger.info("Working Mode = Randomized");
-                    while(cycle < numberOfCycles) {
-                        Hosts host = Hosts.values()[new Random().nextInt(numberOfReplicas)];
-                        logger.info("...Starting cycle {} for hostname {}...",cycle,host.toString());
-                        sendEventsToSmoc(host.toString());
-                        logger.info("...Finished cycle {} for hostname {}...",cycle,host.toString());
-                        cycle = cycle + 1;
-                    }
+
+                    Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
+                    logger.info("...Starting cycle {} for hostname {}...",cycle,randomHost.toString());
+                    sendEventsToSmoc(randomHost.toString());
+                    logger.info("...Finished cycle {} for hostname {}...",cycle,randomHost.toString());
+
                     break;
-                case "ordered":
+
+                    case "ordered":
                     logger.info("Working Mode = Ordered");
                     /* Prepare hosts list */
                     List<String> hostsList = new ArrayList<String>();
@@ -89,14 +89,23 @@ public class Application implements CommandLineRunner {
     }
 
     public void sendEventsToSmoc(String host){
-        for (Events event : Events.values()) {
-            logger.info("Sending {}.event which is __{}__ to __{}__", this.eventNumber, event.toString(),host);
-            String ckpt = sender.send(this.eventNumber, host, event.toString());
-            /* Store CKPT information which is received from smoc */
-            inMemoryStore.persist(ckpt);
-            /*Calculate new event number*/
-            this.eventNumber = this.eventNumber + 1;
+        Events event = Events.Pay;
+        logger.info("Sending {}.event which is __{}__ to __{}__", this.eventNumber, event.toString(),host);
+        String ckpt = sender.send(this.eventNumber, host, event.toString());
+        /* Store CKPT information which is received from smoc */
+        inMemoryStore.persist(ckpt);
+        /* Send this message to other smocs in order NOT to take CKPT  */
+        for (Hosts otherHost : Hosts.values()) {
+            if (otherHost.toString().equals(host)) {
+                logger.info("Skipping host: {}",host);
+            }
+            else{
+                logger.info("Sending event to host : {}",otherHost);
+                String msg = sender.send(this.eventNumber, host, event.toString());
+            }
         }
+        /*Calculate new event number*/
+        this.eventNumber = this.eventNumber + 1;
     }
 
     public static void main(String[] args) {
