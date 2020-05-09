@@ -46,7 +46,7 @@ public class Application implements CommandLineRunner {
 
         this.eventNumber = 1;
         Integer event = 0;
-        Integer eventIndex = 0;
+        Integer eventIndex = -1;
 
         /* Read number of cycles */
         Integer numberOfEvents = Integer.valueOf(environment.getProperty("loadbalancer.events"));
@@ -64,6 +64,7 @@ public class Application implements CommandLineRunner {
                         eventIndex = event % 3; // since we have 3 event transitions
                         Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                         Events eventToBeProcessed = Events.values()[eventIndex];
+                        logger.info("Index = {} --> event = {}",eventIndex, eventToBeProcessed.toString());
                         logger.info("...Starting processing event {} inside host {}...", event, randomHost.toString());
                         sendEventToEnsemble(eventToBeProcessed.toString(),randomHost.toString(), numberOfReplicas, false);
                         logger.info("...Finished processing event {} inside host {}...", event, randomHost.toString());
@@ -81,6 +82,7 @@ public class Application implements CommandLineRunner {
                     while(event < numberOfEvents) {
                         eventIndex = event % 3; // since we have 3 event transitions
                         Events eventToBeProcessed = Events.values()[eventIndex];
+                        logger.info("Index = {} --> event = {}",eventIndex, eventToBeProcessed.toString());
                         for (String host : hostsList) {
                             logger.info("...Starting event {} inside host {}...",event,host);
                             sendEventToEnsemble(eventToBeProcessed.toString(),host,numberOfReplicas, true);
