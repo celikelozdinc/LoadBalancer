@@ -45,18 +45,18 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         logger.info("Application::run()");
         this.peerGroup = new Hashtable();
-        this.peerGroup.put("1", new ArrayList<>(Arrays.asList("SMOC1","SMOC2")));
-        this.peerGroup.put("2", new ArrayList<>(Arrays.asList("SMOC3","SMOC4")));
-        this.peerGroup.put("3", new ArrayList<>(Arrays.asList("SMOC5","SMOC6")));
-        this.peerGroup.put("4", new ArrayList<>(Arrays.asList("SMOC7","SMOC8")));
-        this.peerGroup.put("5", new ArrayList<>(Arrays.asList("SMOC9","SMOC10")));
-        this.peerGroup.put("6", new ArrayList<>(Arrays.asList("SMOC11","SMOC12")));
-        this.peerGroup.put("7", new ArrayList<>(Arrays.asList("SMOC13","SMOC14")));
-        this.peerGroup.put("8", new ArrayList<>(Arrays.asList("SMOC15","SMOC16")));
-        this.peerGroup.put("9", new ArrayList<>(Arrays.asList("SMOC17","SMOC18")));
-        this.peerGroup.put("10", new ArrayList<>(Arrays.asList("SMOC19","SMOC20")));
-        this.peerGroup.put("11", new ArrayList<>(Arrays.asList("SMOC21","SMOC22")));
-        this.peerGroup.put("12", new ArrayList<>(Arrays.asList("SMOC23","SMOC24")));
+        this.peerGroup.put(1, new ArrayList<>(Arrays.asList("SMOC1","SMOC2")));
+        this.peerGroup.put(2, new ArrayList<>(Arrays.asList("SMOC3","SMOC4")));
+        this.peerGroup.put(3, new ArrayList<>(Arrays.asList("SMOC5","SMOC6")));
+        this.peerGroup.put(4, new ArrayList<>(Arrays.asList("SMOC7","SMOC8")));
+        this.peerGroup.put(5, new ArrayList<>(Arrays.asList("SMOC9","SMOC10")));
+        this.peerGroup.put(6, new ArrayList<>(Arrays.asList("SMOC11","SMOC12")));
+        this.peerGroup.put(7, new ArrayList<>(Arrays.asList("SMOC13","SMOC14")));
+        this.peerGroup.put(8, new ArrayList<>(Arrays.asList("SMOC15","SMOC16")));
+        this.peerGroup.put(9, new ArrayList<>(Arrays.asList("SMOC17","SMOC18")));
+        this.peerGroup.put(10, new ArrayList<>(Arrays.asList("SMOC19","SMOC20")));
+        this.peerGroup.put(11, new ArrayList<>(Arrays.asList("SMOC21","SMOC22")));
+        this.peerGroup.put(12, new ArrayList<>(Arrays.asList("SMOC23","SMOC24")));
 
         this.eventNumber = 1;
         Integer event = 0;
