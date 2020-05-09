@@ -11,8 +11,6 @@ import org.springframework.core.env.Environment;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -99,6 +97,10 @@ public class Application implements CommandLineRunner {
         /* Be sure that all the state machines are in same state after each event processing */
         for (int hostCounter=0; hostCounter < numOfReplicas; hostCounter ++ ) {
             Hosts otherHost = Hosts.values()[hostCounter];
+
+            String peer = whoIsMyPair(host.toString());
+            logger.info("PEER of {} is {}",host,peer);
+
             /* otherHost = smocx, host = smocx -> do not process same event again and again */
             if (otherHost.toString().equals(host)) {
                 logger.info("Skipping host: __{}__",otherHost);
@@ -115,6 +117,25 @@ public class Application implements CommandLineRunner {
         }
         /*Calculate new event number*/
         this.eventNumber = this.eventNumber + 1;
+    }
+
+    public String whoIsMyPair(String host){
+        /* n <- smoc<n>*/
+        Integer smocNumber = Integer.parseInt(host.substring(4));
+        Integer peerGroup = -1 ;
+        if (smocNumber % 2 == 0)
+        { /* EVEN */
+            /* Peer Group = 10 <- smoc20 */
+            peerGroup = smocNumber/2;
+            logger.info("{} --> EVEN, PEER GROUP : {}",host,peerGroup);
+        }
+        else
+        { /* ODD */
+            /* Peer Group = 10 <- smoc19 */
+            peerGroup = (smocNumber+1)/2;
+            logger.info("{} --> ODD, PEER GROUP : {}",host,peerGroup);
+        }
+        return peerGroup.toString();
     }
 
     public static void main(String[] args) {
