@@ -11,7 +11,7 @@ import org.springframework.core.env.Environment;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.EventSender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.InMemoryStore;
 
-import java.util.Random;
+import java.util.*;
 
 
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
@@ -33,6 +33,8 @@ public class Application implements CommandLineRunner {
 
     private enum Hosts{SMOC1,SMOC2,SMOC3,SMOC4,SMOC5,SMOC6,SMOC7,SMOC8,SMOC9,SMOC10,SMOC11,SMOC12,SMOC13,SMOC14,SMOC15}
 
+    private Dictionary peerGroup;
+
     private Integer eventNumber;
 
     static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -41,6 +43,21 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+
+        this.peerGroup = new Hashtable();
+        this.peerGroup.put("1", new ArrayList<>(Arrays.asList("SMOC1","SMOC2")));
+        this.peerGroup.put("2", new ArrayList<>(Arrays.asList("SMOC3","SMOC4")));
+        this.peerGroup.put("3", new ArrayList<>(Arrays.asList("SMOC5","SMOC6")));
+        this.peerGroup.put("4", new ArrayList<>(Arrays.asList("SMOC7","SMOC8")));
+        this.peerGroup.put("5", new ArrayList<>(Arrays.asList("SMOC9","SMOC10")));
+        this.peerGroup.put("6", new ArrayList<>(Arrays.asList("SMOC11","SMOC12")));
+        this.peerGroup.put("7", new ArrayList<>(Arrays.asList("SMOC13","SMOC14")));
+        this.peerGroup.put("8", new ArrayList<>(Arrays.asList("SMOC15","SMOC16")));
+        this.peerGroup.put("9", new ArrayList<>(Arrays.asList("SMOC17","SMOC18")));
+        this.peerGroup.put("10", new ArrayList<>(Arrays.asList("SMOC19","SMOC20")));
+        this.peerGroup.put("11", new ArrayList<>(Arrays.asList("SMOC21","SMOC22")));
+        this.peerGroup.put("12", new ArrayList<>(Arrays.asList("SMOC23","SMOC24")));
 
         this.eventNumber = 1;
         Integer event = 0;
@@ -62,7 +79,6 @@ public class Application implements CommandLineRunner {
                         eventIndex = event % 3; // since we have 3 event transitions
                         Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                         Events eventToBeProcessed = Events.values()[eventIndex];
-                        logger.info("Index = {} --> event = {}",eventIndex, eventToBeProcessed.toString());
                         logger.info("...Starting processing event {} inside host {}...", event, randomHost.toString());
                         sendEventToEnsemble(eventToBeProcessed.toString(),randomHost.toString(), numberOfReplicas, false);
                         logger.info("...Finished processing event {} inside host {}...", event, randomHost.toString());
@@ -123,19 +139,22 @@ public class Application implements CommandLineRunner {
         /* n <- smoc<n>*/
         Integer smocNumber = Integer.parseInt(host.substring(4));
         Integer peerGroup = -1 ;
+        String peer = "";
         if (smocNumber % 2 == 0)
         { /* EVEN */
             /* Peer Group = 10 <- smoc20 */
             peerGroup = smocNumber/2;
-            logger.info("{} --> EVEN, PEER GROUP : {}",host,peerGroup);
+            peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(0);
+            logger.info("{} --> EVEN, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
         else
         { /* ODD */
             /* Peer Group = 10 <- smoc19 */
             peerGroup = (smocNumber+1)/2;
-            logger.info("{} --> ODD, PEER GROUP : {}",host,peerGroup);
+            peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(1);
+            logger.info("{} --> ODD, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
-        return peerGroup.toString();
+        return peer;
     }
 
     public static void main(String[] args) {
