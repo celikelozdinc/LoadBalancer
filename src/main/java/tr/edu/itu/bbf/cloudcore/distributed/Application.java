@@ -144,6 +144,8 @@ public class Application implements CommandLineRunner {
         { /* EVEN */
             /* Peer Group = 10 <- smoc20 */
             peerGroup = smocNumber/2;
+            logger.info("peerGroup = {}",peerGroup);
+            logger.info("Peer Group --> {}",((ArrayList<String>) this.peerGroup.get(peerGroup)));
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(0);
             logger.info("{} --> EVEN, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
@@ -151,6 +153,8 @@ public class Application implements CommandLineRunner {
         { /* ODD */
             /* Peer Group = 10 <- smoc19 */
             peerGroup = (smocNumber+1)/2;
+            logger.info("peerGroup = {}",peerGroup);
+            logger.info("Peer Group --> {}",((ArrayList<String>) this.peerGroup.get(peerGroup)));
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(1);
             logger.info("{} --> ODD, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
