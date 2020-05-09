@@ -74,21 +74,15 @@ public class Application implements CommandLineRunner {
                     case "ordered":
                     logger.info("Working Mode = Ordered");
                     /* Prepare hosts list */
-                    List<String> hostsList = new ArrayList<String>();
-                    for(int hostIndex=1; hostIndex<=numberOfReplicas;hostIndex++){
-                        String host = "SMOC"+hostIndex;
-                        hostsList.add(host);
-                    }
                     while(event < numberOfEvents) {
                         eventIndex = event % 3; // since we have 3 event transitions
                         Events eventToBeProcessed = Events.values()[eventIndex];
+                        Hosts firstHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
                         logger.info("Index = {} --> event = {}",eventIndex, eventToBeProcessed.toString());
-                        for (String host : hostsList) {
-                            logger.info("...Starting event {} inside host {}...",event,host);
-                            sendEventToEnsemble(eventToBeProcessed.toString(),host,numberOfReplicas, true);
-                            logger.info("...Finished event {} inside host {}...",event,host);
-                            event = event + 1;
-                        }
+                        logger.info("...Starting event {} inside host {}...",event,firstHost.toString());
+                        sendEventToEnsemble(eventToBeProcessed.toString(),firstHost.toString(),numberOfReplicas, true);
+                        logger.info("...Finished event {} inside host {}...",event,firstHost.toString());
+                        event = event + 1;
                     }
                     break;
             }
