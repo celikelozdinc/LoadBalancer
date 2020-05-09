@@ -43,8 +43,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-
+        logger.info("Application::run()");
         this.peerGroup = new Hashtable();
         this.peerGroup.put("1", new ArrayList<>(Arrays.asList("SMOC1","SMOC2")));
         this.peerGroup.put("2", new ArrayList<>(Arrays.asList("SMOC3","SMOC4")));
@@ -114,7 +113,10 @@ public class Application implements CommandLineRunner {
         for (int hostCounter=0; hostCounter < numOfReplicas; hostCounter ++ ) {
             Hosts otherHost = Hosts.values()[hostCounter];
 
-            String peer = whoIsMyPair(host.toString());
+            if (this.peerGroup == null){
+                logger.info(" !!! peerGroup is null !!!?!?!?!?!?");
+            }
+            String peer = whoIsMyPair(host);
             logger.info("PEER of {} is {}",host,peer);
 
             /* otherHost = smocx, host = smocx -> do not process same event again and again */
@@ -145,7 +147,7 @@ public class Application implements CommandLineRunner {
             /* Peer Group = 10 <- smoc20 */
             peerGroup = smocNumber/2;
             logger.info("peerGroup = {}",peerGroup);
-            logger.info("Peer Group --> {}",((ArrayList<String>) this.peerGroup.get(peerGroup)));
+            logger.info("Peer Group --> {}", this.peerGroup.get(peerGroup));
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(0);
             logger.info("{} --> EVEN, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
@@ -154,7 +156,7 @@ public class Application implements CommandLineRunner {
             /* Peer Group = 10 <- smoc19 */
             peerGroup = (smocNumber+1)/2;
             logger.info("peerGroup = {}",peerGroup);
-            logger.info("Peer Group --> {}",((ArrayList<String>) this.peerGroup.get(peerGroup)));
+            logger.info("Peer Group --> {}", this.peerGroup.get(peerGroup));
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(1);
             logger.info("{} --> ODD, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
