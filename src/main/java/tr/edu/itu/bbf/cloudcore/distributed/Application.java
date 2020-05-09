@@ -46,6 +46,7 @@ public class Application implements CommandLineRunner {
 
         this.eventNumber = 1;
         Integer event = 0;
+        Integer eventIndex = 0;
 
         /* Read number of cycles */
         Integer numberOfEvents = Integer.valueOf(environment.getProperty("loadbalancer.events"));
@@ -60,9 +61,11 @@ public class Application implements CommandLineRunner {
                 case "randomized":
                     logger.info("Working Mode = Randomized");
                     while(event < numberOfEvents) {
+                        eventIndex = event % 3; // since we have 3 event transitions
                         Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)];
+                        Events eventToBeProcessed = Events.values()[eventIndex];
                         logger.info("...Starting processing event {} inside host {}...", event, randomHost.toString());
-                        sendEventToEnsemble(randomHost.toString(), numberOfReplicas, false);
+                        sendEventToEnsemble(eventToBeProcessed.toString(),randomHost.toString(), numberOfReplicas, false);
                         logger.info("...Finished processing event {} inside host {}...", event, randomHost.toString());
                         event = event + 1;
                     }
@@ -76,9 +79,11 @@ public class Application implements CommandLineRunner {
                         hostsList.add(host);
                     }
                     while(event < numberOfEvents) {
+                        eventIndex = event % 3; // since we have 3 event transitions
+                        Events eventToBeProcessed = Events.values()[eventIndex];
                         for (String host : hostsList) {
                             logger.info("...Starting event {} inside host {}...",event,host);
-                            sendEventToEnsemble(host.toString(),numberOfReplicas, true);
+                            sendEventToEnsemble(eventToBeProcessed.toString(),host,numberOfReplicas, true);
                             logger.info("...Finished event {} inside host {}...",event,host);
                             event = event + 1;
                         }
@@ -88,8 +93,7 @@ public class Application implements CommandLineRunner {
 
     }
 
-    public void sendEventToEnsemble(String host, Integer numOfReplicas, boolean withCkpt){
-        Events event = Events.Pay;
+    public void sendEventToEnsemble(String event, String host, Integer numOfReplicas, boolean withCkpt){
         logger.info("Sending {}.event which is __{}__ to __{}__ with flag __{}__", this.eventNumber, event.toString(),host,true);
         /* Send this message to chosen smoc in order to take CKPT  */
         String ckpt = sender.send(this.eventNumber, host, event.toString(),true);
