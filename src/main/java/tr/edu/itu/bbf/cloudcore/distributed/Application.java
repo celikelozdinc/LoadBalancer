@@ -99,6 +99,7 @@ public class Application implements CommandLineRunner {
         /* Store CKPT information which is received from smoc */
         inMemoryStore.persist(ckpt);
         /* Send this message to other smocs in order NOT to take CKPT  */
+        /* Be sure that all the state machines are in same state after each event processing */
         for (int hostCounter=0; hostCounter < numOfReplicas; hostCounter ++ ) {
             Hosts otherHost = Hosts.values()[hostCounter];
             if (otherHost.toString().equals(host)) {
