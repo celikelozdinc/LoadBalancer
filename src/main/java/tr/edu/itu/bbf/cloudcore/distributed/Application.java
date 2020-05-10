@@ -101,10 +101,10 @@ public class Application implements CommandLineRunner {
                     while(event < numberOfEvents) {
                         eventIndex = event % 3; // since we have 3 event transitions
                         Events eventToBeProcessed = Events.values()[eventIndex];
-                        Hosts firstHost = Hosts.values()[numberOfReplicas - 1]; // start from last smoc in the current replica set
-                        logger.info("...Starting event {} inside host {}...",event,firstHost.toString());
-                        sendEventToEnsemble(eventToBeProcessed.toString(),firstHost.toString(),numberOfReplicas, false,true);
-                        logger.info("...Finished event {} inside host {}...",event,firstHost.toString());
+                        Hosts randomHost = Hosts.values()[new Random().nextInt(numberOfReplicas)]; // start from random smoc
+                        logger.info("...Starting event {} inside host {}...",event,randomHost.toString());
+                        sendEventToEnsemble(eventToBeProcessed.toString(),randomHost.toString(),numberOfReplicas, false,true);
+                        logger.info("...Finished event {} inside host {}...",event,randomHost.toString());
                         event = event + 1;
                     }
                     break;
@@ -128,13 +128,16 @@ public class Application implements CommandLineRunner {
                 logger.info("Skipping host: __{}__",otherHost);
             }
             /* if the otherHost is peer of host */
+            /* if workingMode = PartialCheckpoint       -> solutionType = mirrored                       -> peer stores CKPT */
+            /* if workingMode = WithoutExtraCheckpoint  -> solutionType = distributed  || centralized    -> peer does not store CKPT */
+            /* if workingMode = WithExtraCheckpoint     -> solutionType = conventional                   -> peer stores CKPT */
             else if (otherHost.toString().equals(whoIsMyPair(host))){
                 logger.info("Processing {} which is also peer of {}:",otherHost, host);
                 logger.info("Sending {}.event which is __{}__ to __{}__ with flag __{}__", this.eventNumber, event,otherHost,willPeerCkpt);
                 String _msg = sender.send(this.eventNumber, otherHost.toString(), event,willPeerCkpt);
             }
-            /* if workingMode = WithExtraCheckpoint     -> solutionType = conventional || mirrored       -> 1/more smocs stores CKPT */
-            /* if workingMode = WithoutExtraCheckpoint  -> solutionType = distributed  || centralized    -> no smoc stores any CKPT */
+            /* if workingMode = WithoutExtraCheckpoint  -> solutionType = distributed  || centralized    -> otherHost does not store CKPT */
+            /* if workingMode = WithExtraCheckpoint     -> solutionType = conventional                   -> otherHost stores CKPT */
             else {
                 logger.info("Processing otherHost {}:",otherHost.toString());
                 logger.info("Sending {}.event which is __{}__ to __{}__ with flag __{}__", this.eventNumber, event,otherHost,willOthersCkpt);
@@ -155,14 +158,12 @@ public class Application implements CommandLineRunner {
             /* Peer Group = 10 <- smoc20 */
             peerGroup = smocNumber/2;
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(0);
-            logger.info("{} --> EVEN, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
         else
         { /* ODD */
             /* Peer Group = 10 <- smoc19 */
             peerGroup = (smocNumber+1)/2;
             peer = ((ArrayList<String>) this.peerGroup.get(peerGroup)).get(1);
-            logger.info("{} --> ODD, PEER GROUP : {}, PEER: {}",host,peerGroup, peer);
         }
         return peer;
     }
